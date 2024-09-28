@@ -71,10 +71,12 @@ class PhonebookRepo:
             with self.con as con:
                 con.execute('''insert into phonebook(first_name, middle_name, last_name, email, address) 
                             values (?,?,?,?,?)''',(contact.first_name, contact.middle_name, contact.last_name,contact.email, contact.address))
+                new_id = con.execute("SELECT last_insert_rowid() AS new_id")
+                new_id = new_id.fetchone()[0]
                 phonenumbers = contact.phone_numbers
                 for number in phonenumbers:
                     con.execute('''insert into phonenumber(contact_id, label, country_code, phone_number) values(?,?,?,?)''',
-                                (contact._id, number.label, number.country_code, number.phone_number))
+                                (new_id, number.label, number.country_code, number.phone_number))
         except Exception as e:
             print(f'Error: {e}')
             raise
