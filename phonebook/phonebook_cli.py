@@ -1,6 +1,6 @@
 import argparse
 from schema import Contact, PhoneNumber
-from views import Phonebook
+from phonebook import Phonebook
 
 phonebook = Phonebook()
 
